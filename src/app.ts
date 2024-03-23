@@ -4,6 +4,9 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 
 import { Config } from './config';
+import { authRouter } from './admin/routes/auth.route';
+
+//routers
 
 class App {
   public app: express.Application;
@@ -30,10 +33,7 @@ class App {
   }
 
   private routes(): void {
-    //middleware to use for all requests
-    this.app.use('/', (req, res) => {
-      res.json({ message: 'Ánh sao và bầu trời' });
-    });
+    this.app.use('/auth', authRouter.getRouter());
   }
 }
 
