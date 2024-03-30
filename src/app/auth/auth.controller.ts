@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../models/User.model';
+import User from '../user/user.model';
 
 const authController = {
   registerUser: async (req: Request, res: Response) => {

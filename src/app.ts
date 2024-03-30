@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 
 import { Config } from './config';
-import { authRouter } from './admin/routes/auth.route';
+import { authRouter } from './app/auth/auth.route';
+import { userRouter } from './app/user/user.route';
 
 //routers
 
@@ -34,6 +35,7 @@ class App {
 
   private routes(): void {
     this.app.use('/auth', authRouter.getRouter());
+    this.app.use('/api/user', userRouter.getRouter());
   }
 }
 
