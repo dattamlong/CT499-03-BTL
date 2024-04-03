@@ -13,8 +13,8 @@ class Config {
   constructor() {
     this.PORT = process.env.PORT || 3000;
     this.DB_URL = process.env.DB_URL || this.DEFAULT_DB_URL;
-    this.JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || '11asdasdkljlasd';
-    this.JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || 'asdasdasdjbjk1@';
+    this.JWT_ACCESS_KEY = process.env.JWT_ACCESS_KEY || 'vPodj06fa8XnFQaqVJD0HxxowEHDZdrbdj18MslgyC5yi5rOeBfE81rYFz';
+    this.JWT_REFRESH_KEY = process.env.JWT_REFRESH_KEY || 'dTlkX3slm49y1VmfuOnCTOFi2bSXY18pQXAGHjjyooFW6jjv6iqqxewjwY';
     this.NODE_ENV = process.env.NODE_ENV;
   }
 

@@ -9,8 +9,7 @@ import userRoute from './app/users/user.route';
 import logger from './utils/logger';
 import { config } from './config';
 import { errorHandler } from './app/middleware/errorHandler.middleware';
-
-//routers
+import { notFound } from './app/middleware/notFound.middleware';
 
 class App {
   public app: express.Application;
@@ -45,12 +44,17 @@ class App {
   }
 
   private routes(): void {
+    //url not found
+
     this.app.use('/auth', authRoute);
 
-    this.app.use('/api/user', userRoute);
+    this.app.use('/api/users', userRoute);
   }
 
   private globalErrorHandler(): void {
+    //url not found
+    this.app.use(notFound);
+
     this.app.use(errorHandler);
   }
 }
