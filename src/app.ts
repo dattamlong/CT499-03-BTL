@@ -1,9 +1,15 @@
 import express from 'express';
-import cors from 'cors';
 import mongoose from 'mongoose';
 import compression from 'compression';
+import expressWinston from 'express-winston';
+import cookieParser from 'cookie-parser';
 
-import { Config } from './config';
+import authRoute from './app/auth/auth.route';
+import userRoute from './app/users/user.route';
+import logger from './utils/logger';
+import { config } from './config';
+import { errorHandler } from './app/middleware/errorHandler.middleware';
+import { notFound } from './app/middleware/notFound.middleware';
 
 class App {
   public app: express.Application;
@@ -12,17 +18,25 @@ class App {
     this.app = express();
     this.middleware();
     this.routes();
+    this.globalErrorHandler();
   }
 
   //configure Express middleware
   private middleware(): void {
+    this.app.use(cookieParser());
+
+    this.app.use(
+      expressWinston.logger({
+        winstonInstance: logger,
+      }),
+    );
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
     mongoose.connection.on('connected', () => {
       console.log('[server]: Connected to database successfully!');
     });
-    mongoose.connect(Config.mongoUrl);
+    mongoose.connect(config.DB_URL);
 
     this.app.use(express.static(__dirname + '/../public/'));
 
@@ -30,10 +44,18 @@ class App {
   }
 
   private routes(): void {
-    //middleware to use for all requests
-    this.app.use('/', (req, res) => {
-      res.json({ message: 'Ánh sao và bầu trời' });
-    });
+    //url not found
+
+    this.app.use('/auth', authRoute);
+
+    this.app.use('/api/users', userRoute);
+  }
+
+  private globalErrorHandler(): void {
+    //url not found
+    this.app.use(notFound);
+
+    this.app.use(errorHandler);
   }
 }
 
