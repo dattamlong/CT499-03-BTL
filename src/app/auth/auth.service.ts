@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { IUserDocument } from '@users/user.interface';
 import { config } from '@root/config';
-import { error } from 'console';
 import ApiError from '@root/utils/ApiError';
 
 const authService = {
