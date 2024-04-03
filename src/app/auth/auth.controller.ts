@@ -1,52 +1,50 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import User from '../user/user.model';
+import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
-const authController = {
-  registerUser: async (req: Request, res: Response) => {
+import authService from './auth.service';
+import userService from '@users/user.service';
+import { validation } from '@root/utils/validation';
+import { IUserDocument } from '@users/user.interface';
+import ApiError from '@root/utils/ApiError';
+import { config } from '@root/config';
+
+export const authController = {
+  register: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { firstName, lastName, birthdate, gender, email, address, phoneNumber, password } = req.body;
-      const salt = await bcrypt.genSalt(10);
-      const hashed = await bcrypt.hash(password, salt);
-
-      const newUser = new User({
-        firstName,
-        lastName,
-        birthdate,
-        gender,
-        email,
-        address,
-        phoneNumber,
-        password: hashed,
-      });
-
-      const user = await newUser.save();
-      res.status(200).json(user);
+      validation(req, res);
+      const user = await userService.createUser(req.body);
+      const token = authService.signToken({ user });
+      return res.status(200).json(token);
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   },
 
-  loginUser: async (req: Request, res: Response) => {
+  login: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const message_forbidden = 'Email or password is wrong.';
+      validation(req, res);
       const { email, password } = req.body;
-      const user = await User.findOne({ email });
-
-      if (!user) return res.status(404).json('Wrong email!');
-
-      if (!user.password) {
-        return res.status(500).json('User password is not set!');
-      }
-
-      const validPassword = await bcrypt.compare(password, user.password);
-
-      if (!validPassword) res.status(404).json('Wrong password!');
-
-      if (user && validPassword) res.status(200).json(user);
+      const existingUser: IUserDocument = await userService.getUserByEmail(email);
+      if (!existingUser) throw new ApiError(403, message_forbidden);
+      const validPassword = await existingUser.comparePassword(password);
+      if (!validPassword) throw new ApiError(403, message_forbidden);
+      const token = authService.signToken({ user: existingUser });
+      res.status(200).json(token);
     } catch (error) {
-      return res.status(500).json(error);
+      next(error);
+    }
+  },
+
+  refresh: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      console.log(decoded);
+      var decoded: any = jwt.verify(req.body.refreshToken, config.JWT_REFRESH_KEY);
+
+      const token = authService.signToken({ user: { _id: decoded.userId, isAdmin: decoded.isAdmin, email: decoded.email } });
+      res.status(200).json(token);
+    } catch (error) {
+      next(error);
     }
   },
 };
-
-export default authController;

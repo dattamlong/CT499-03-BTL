@@ -1,18 +1,14 @@
 import { Router } from 'express';
-import authController from './auth.controller';
+import { authController } from './auth.controller';
+import { loginSchema, registerSchema } from './auth.schema';
+import { checkExactSchema } from '../middleware/checkExactSchema.middleware';
+import userService from '@users/user.service';
+import authMiddleware from './auth.middleware';
 
-class AuthRouter {
-  private router: Router;
+const authRoute = Router();
 
-  constructor() {
-    this.router = Router();
-  }
+authRoute.post('/register', checkExactSchema(registerSchema), authController.register);
+authRoute.post('/login', checkExactSchema(loginSchema), authController.login);
+authRoute.post('/refresh', authMiddleware.verifyToken, authController.refresh);
 
-  public getRouter(): Router {
-    this.router.post('/register', authController.registerUser);
-    this.router.post('/login', authController.loginUser);
-    return this.router;
-  }
-}
-
-export const authRouter: AuthRouter = new AuthRouter();
+export default authRoute;

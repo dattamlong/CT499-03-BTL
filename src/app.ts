@@ -1,11 +1,14 @@
 import express from 'express';
-import cors from 'cors';
 import mongoose from 'mongoose';
 import compression from 'compression';
+import expressWinston from 'express-winston';
+import cookieParser from 'cookie-parser';
 
-import { Config } from './config';
-import { authRouter } from './app/auth/auth.route';
-import { userRouter } from './app/user/user.route';
+import authRoute from './app/auth/auth.route';
+import userRoute from './app/users/user.route';
+import logger from './utils/logger';
+import { config } from './config';
+import { errorHandler } from './app/middleware/errorHandler.middleware';
 
 //routers
 
@@ -16,17 +19,25 @@ class App {
     this.app = express();
     this.middleware();
     this.routes();
+    this.globalErrorHandler();
   }
 
   //configure Express middleware
   private middleware(): void {
+    this.app.use(cookieParser());
+
+    this.app.use(
+      expressWinston.logger({
+        winstonInstance: logger,
+      }),
+    );
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
     mongoose.connection.on('connected', () => {
       console.log('[server]: Connected to database successfully!');
     });
-    mongoose.connect(Config.mongoUrl);
+    mongoose.connect(config.DB_URL);
 
     this.app.use(express.static(__dirname + '/../public/'));
 
@@ -34,8 +45,13 @@ class App {
   }
 
   private routes(): void {
-    this.app.use('/auth', authRouter.getRouter());
-    this.app.use('/api/user', userRouter.getRouter());
+    this.app.use('/auth', authRoute);
+
+    this.app.use('/api/user', userRoute);
+  }
+
+  private globalErrorHandler(): void {
+    this.app.use(errorHandler);
   }
 }
 

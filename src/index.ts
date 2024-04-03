@@ -1,9 +1,9 @@
 import * as http from 'http';
 
-import { Config } from './config';
 import App from './app';
+import { config } from './config';
 
-const port = Config.portNumber;
+const port = config.PORT;
 const server = http.createServer(App);
 server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
