@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import HTTP_STATUS from 'http-status-codes';
+
 import { IUserDocument } from '@users/user.interface';
 import { config } from '@root/config';
 import ApiError from '@root/utils/ApiError';
@@ -30,7 +32,7 @@ const authService = {
 
   verifyToken: (token: string, jwtKey: string) => {
     return jwt.verify(token, jwtKey, (error, decoded) => {
-      if (error) throw new ApiError(403, message.not_auth);
+      if (error) throw new ApiError(HTTP_STATUS.FORBIDDEN, message.not_auth);
       return decoded;
     });
   },

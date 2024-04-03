@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
+import HTTP_STATUS from 'http-status-codes';
 
 import userService from './user.service';
 import { responseList, responseOne } from '@root/utils/response';
 import { validation } from '@root/utils/validation';
-import { decode } from 'jsonwebtoken';
 import getDecodedJWT from '@root/utils/getDecodedJWTFromReq';
 
 const userController = {
@@ -62,7 +62,7 @@ const userController = {
     try {
       const { id } = req.body.id;
       await userService.deleteUser(id);
-      res.status(200).json({ message: `Delete user ${id} successfully!` });
+      res.status(HTTP_STATUS.OK).json({ message: `Delete user ${id} successfully!` });
     } catch (error) {
       next(error);
     }

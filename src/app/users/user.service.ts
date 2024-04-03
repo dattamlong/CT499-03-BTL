@@ -1,6 +1,6 @@
 import { IUserDocument } from './user.interface';
 import { UserModel } from './user.model';
-import mongoose, { ObjectId } from 'mongoose';
+import { ObjectId } from 'mongoose';
 
 const userService = {
   getAllUsers: async () => {
