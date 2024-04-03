@@ -9,7 +9,7 @@ const userRoute = Router();
 //user profile
 userRoute.get('/me', authMiddleware.verifyToken, userController.getProfile);
 userRoute.patch('/me', authMiddleware.verifyToken, checkExactChains(IbasedUserInfoChains), userController.updateProfile);
-//===========================================================================
+//==================================================================================
 userRoute.get('/', authMiddleware.verifyTokenAndAdminAuth, userController.getAllUsers);
 userRoute.get('/:id', authMiddleware.verifyTokenAndAdminAuth, userController.getOneUser);
 userRoute.patch('/:id', authMiddleware.verifyTokenAndAdminAuth, checkExactChains(IbasedUserInfoChains), userController.updateUser);

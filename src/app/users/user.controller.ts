@@ -5,6 +5,7 @@ import userService from './user.service';
 import { responseList, responseOne } from '@root/utils/response';
 import { validation } from '@root/utils/validation';
 import getDecodedJWT from '@root/utils/getDecodedJWTFromReq';
+import ApiError from '@root/utils/ApiError';
 
 const userController = {
   getAllUsers: async (req: Request, res: Response, next: NextFunction) => {
@@ -19,6 +20,7 @@ const userController = {
   getOneUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await userService.getUserById(req.params.id);
+      if (!user) throw new ApiError(HTTP_STATUS.NOT_FOUND, "User doesn't exist.");
       return responseOne(res, user);
     } catch (error) {
       next(error);
