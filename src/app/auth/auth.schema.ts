@@ -27,7 +27,7 @@ export const registerSchema = [
   body('gender')
     .optional({ nullable: true })
     .custom(async (value) => {
-      if (value !== '0' && value !== '1') throw new Error('must be 0 or 1');
+      if (value !== '0' && value !== '1') throw new Error('Gender must be 0 or 1');
     }),
   body('address').optional({ nullable: true }).isString().withMessage('Last name must be of type string'),
   body('phoneNumber').optional({ nullable: true }).isString().withMessage('Last name must be of type string'),

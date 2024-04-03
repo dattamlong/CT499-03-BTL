@@ -7,11 +7,12 @@ import { validation } from '@root/utils/validation';
 import { IUserDocument } from '@users/user.interface';
 import ApiError from '@root/utils/ApiError';
 import { config } from '@root/config';
+import { validationResult } from 'express-validator';
 
 export const authController = {
   register: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      validation(req, res);
+      if (!validation(req, res)) return;
       const user = await userService.createUser(req.body);
       const token = authService.signToken({ user });
       return res.status(200).json(token);
@@ -23,7 +24,7 @@ export const authController = {
   login: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const message_forbidden = 'Email or password is wrong.';
-      validation(req, res);
+      if (!validation(req, res)) return;
       const { email, password } = req.body;
       const existingUser: IUserDocument = await userService.getUserByEmail(email);
       if (!existingUser) throw new ApiError(403, message_forbidden);
