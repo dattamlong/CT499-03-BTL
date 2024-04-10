@@ -35,12 +35,7 @@ const userService = {
   },
 
   getUserById: async (id: string | ObjectId): Promise<IUserDocument> => {
-    return (await UserModel.findById(id)
-      .exec()
-      .then()
-      .catch(() => {
-        throw new ApiError(HTTP_STATUS.NOT_FOUND, message.user_not_found);
-      })) as IUserDocument;
+    return await UserModel.findById(id);
   },
 
   isUserExit: async (email: string) => {

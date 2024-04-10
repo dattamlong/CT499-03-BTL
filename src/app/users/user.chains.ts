@@ -8,11 +8,12 @@ export const IbasedUserInfoChains = [
   body('gender')
     .optional({ nullable: true })
     .custom(async (value) => {
-      if (value !== '0' && value !== '1') throw new Error('Gender must be 0 or 1');
+      if (value !== '0' && value !== '1' && value !== 'unknow') throw new Error('Gender must be 0 or 1 or unknow');
     }),
+  body('birthday').optional({ nullable: true }).isDate().withMessage('Ngày không hợp lệ'),
+  body('email').isEmail().withMessage('Email không hợp lệ'),
   body('address').optional({ nullable: true }).isString().withMessage('Last name must be of type string'),
   body('phoneNumber').optional({ nullable: true }).isString().withMessage('Last name must be of type string'),
-  body('isAdmin').optional({ nullable: true }).isBoolean().withMessage('Is Admin must be of type boolean'),
 ];
 
 export const userChains = [

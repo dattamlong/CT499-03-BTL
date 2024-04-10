@@ -27,7 +27,7 @@ export const userSchema = new Schema(
       max: 30,
     },
     isAdmin: { type: Boolean, default: false },
-
+    birthday: { type: Date },
     firstName: { type: String, default: '' },
     lastName: { type: String, default: '' },
     gender: { type: String, default: 'unknow' },

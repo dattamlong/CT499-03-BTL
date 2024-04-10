@@ -31,7 +31,7 @@ export const authController = {
       const validPassword = await existingUser.comparePassword(password);
       if (!validPassword) throw new ApiError(403, message.wrong_email_pass);
       const token = authService.signToken({ user: existingUser });
-      res.status(HTTP_STATUS.OK).json(token);
+      res.status(HTTP_STATUS.OK).json({ user: existingUser, token });
     } catch (error) {
       next(error);
     }
