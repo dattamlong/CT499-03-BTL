@@ -26,6 +26,7 @@ export const userSchema = new Schema(
       min: 8,
       max: 30,
     },
+    avatar: { type: String, default: '' },
     isAdmin: { type: Boolean, default: false },
     birthday: { type: Date },
     firstName: { type: String, default: '' },

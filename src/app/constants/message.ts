@@ -5,4 +5,5 @@ export const message = {
   not_found_url: "Url doesn't exist",
   user_not_found: "User doesn't exist",
   book_not_found: "Book doesn't exist",
+  upload_photo_failed: 'Tải ảnh thất bại!',
 };

@@ -35,7 +35,7 @@ const userService = {
   },
 
   getUserById: async (id: string | ObjectId): Promise<IUserDocument> => {
-    return await UserModel.findById(id);
+    return (await UserModel.findById(id)) as IUserDocument;
   },
 
   isUserExit: async (email: string) => {

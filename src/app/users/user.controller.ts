@@ -17,6 +17,16 @@ const userController = {
     }
   },
 
+  createUser: async (req: Request, res: Response, next: NextFunction) => {
+    if (!validation(req, res)) return;
+    try {
+      const users = await userService.createUser(req.body);
+      return responseOne(res, users);
+    } catch (error) {
+      next(Error);
+    }
+  },
+
   getOneUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = await userService.getUserById(req.params.id);

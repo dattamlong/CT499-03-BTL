@@ -1,6 +1,7 @@
 #misc
 .env
 
+
 # Logs
 logs
 *.log
@@ -43,6 +44,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+dist/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
