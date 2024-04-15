@@ -10,7 +10,8 @@ import ApiError from '@root/utils/ApiError';
 const userController = {
   getAllUsers: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const users = await userService.getAllUsers();
+      const search = req.query.search as string;
+      const users = await userService.getAllUsers(search);
       return responseList(res, users);
     } catch (error) {
       next(Error);

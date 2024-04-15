@@ -7,8 +7,8 @@ import { responseList, responseOne } from '@root/utils/response';
 const bookController = {
   getAllBooks: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const title = req.query.title as string;
-      const books = await bookService.getAllBooks(title);
+      const search = req.query.search as string;
+      const books = await bookService.getAllBooks(search);
       return responseList(res, books);
     } catch (error) {
       next(error);

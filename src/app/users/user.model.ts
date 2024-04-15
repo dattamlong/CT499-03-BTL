@@ -55,5 +55,7 @@ userSchema.methods.hashedPassword = async function (password: string): Promise<s
   return hash(password, SALT_ROUND);
 };
 
+userSchema.index({ '$**': 'text' });
+
 const UserModel: Model<IUserDocument> = model<IUserDocument>('User', userSchema, 'users');
 export { UserModel };

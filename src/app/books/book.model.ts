@@ -3,6 +3,7 @@ import { IBookDocument } from './book.interface';
 
 const bookSchema: Schema = new Schema(
   {
+    image: { type: Array<String> },
     title: { type: String, default: '' },
     price: { type: Number, default: 0 },
     quatity: { type: Number, default: 0 },
@@ -12,6 +13,8 @@ const bookSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+
+bookSchema.index({ '$**': 'text' });
 
 const BookModel: Model<IBookDocument> = model<IBookDocument>('Book', bookSchema, 'books');
 export { BookModel };

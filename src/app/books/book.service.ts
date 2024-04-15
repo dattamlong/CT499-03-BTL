@@ -7,17 +7,18 @@ import ApiError from '@root/utils/ApiError';
 import { message } from '../constants/message';
 
 export const bookService = {
-  getAllBooks: async (title: string) => {
-    return (await BookModel.find({ title: { $regex: title, $options: 'i' } }).exec()) as IBookDocument[];
+  getAllBooks: async (search: string) => {
+    let query = {};
+    if (search) {
+      query = {
+        $text: { $search: search },
+      };
+    }
+    return await BookModel.find(query);
   },
 
   getBookById: async (id: string) => {
     return await BookModel.findById(id);
-    // .exec()
-    // .then()
-    // .catch(() => {
-    //   throw new ApiError(HTTP_STATUS.NOT_FOUND, message.book_not_found);
-    // })) as IBookDocument;
   },
 
   createBook: async (data: IBookDocument) => {
