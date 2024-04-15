@@ -1,10 +1,6 @@
-import HTTP_STATUS from 'http-status-codes';
-
-import ApiError from '@root/utils/ApiError';
 import { IUserDocument } from './user.interface';
 import { UserModel } from './user.model';
 import { ObjectId } from 'mongoose';
-import { message } from '../constants/message';
 
 const userService = {
   getAllUsers: async () => {
@@ -26,21 +22,11 @@ const userService = {
   },
 
   updateUser: async (id: string, info: IUserDocument) => {
-    return (await UserModel.findOneAndUpdate({ _id: id }, info, { new: true })
-      .exec()
-      .then()
-      .catch(() => {
-        throw new ApiError(HTTP_STATUS.NOT_FOUND, message.user_not_found);
-      })) as IUserDocument;
+    return (await UserModel.findOneAndUpdate({ _id: id }, info, { new: true })) as IUserDocument;
   },
 
   getUserById: async (id: string | ObjectId): Promise<IUserDocument> => {
-    return (await UserModel.findById(id)
-      .exec()
-      .then()
-      .catch(() => {
-        throw new ApiError(HTTP_STATUS.NOT_FOUND, message.user_not_found);
-      })) as IUserDocument;
+    return (await UserModel.findById(id)) as IUserDocument;
   },
 
   isUserExit: async (email: string) => {

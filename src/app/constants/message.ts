@@ -1,7 +1,8 @@
 export const message = {
-  wrong_email_pass: 'Email or password is wrong.',
-  not_auth: "you're are not authenticated",
-  not_permission: 'You do not have permission to perform this action',
-  not_found_url: "Url doesn't exist",
-  user_not_found: "User doesn't exist",
+  wrong_email_pass: 'Email hoặc mật khẩu đã sai!',
+  not_auth: 'Bạn chưa được xác thực!',
+  not_permission: 'Bạn không có quyền thực hiện hành động này!',
+  not_found_url: 'Url không tồn tại!',
+  user_not_found: 'Người dùng khồn tồn tại!',
+  publisher_not_exist: 'Nhà xuất bản không tồn tại!',
 };

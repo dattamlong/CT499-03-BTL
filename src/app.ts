@@ -10,6 +10,7 @@ import logger from './utils/logger';
 import { config } from './config';
 import { errorHandler } from './app/middleware/errorHandler.middleware';
 import { notFound } from './app/middleware/notFound.middleware';
+import publisherRoute from './app/publisher/publisher.route';
 
 class App {
   public app: express.Application;
@@ -49,6 +50,8 @@ class App {
     this.app.use('/auth', authRoute);
 
     this.app.use('/api/users', userRoute);
+
+    this.app.use('/api/publishers', publisherRoute);
   }
 
   private globalErrorHandler(): void {
