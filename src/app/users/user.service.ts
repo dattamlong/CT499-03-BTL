@@ -3,8 +3,16 @@ import { UserModel } from './user.model';
 import { ObjectId } from 'mongoose';
 
 const userService = {
-  getAllUsers: async () => {
-    return await UserModel.find();
+  getAllUsers: async (search?: string) => {
+    let query = {};
+
+    if (search) {
+      query = {
+        $text: { $search: search },
+      };
+    }
+
+    return await UserModel.find(query);
   },
 
   deleteUser: async (id: string | ObjectId) => {

@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import compression from 'compression';
 import expressWinston from 'express-winston';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import path from 'path';
 
 import authRoute from './app/auth/auth.route';
 import userRoute from './app/users/user.route';
@@ -10,7 +12,6 @@ import logger from './utils/logger';
 import { config } from './config';
 import { errorHandler } from './app/middleware/errorHandler.middleware';
 import { notFound } from './app/middleware/notFound.middleware';
-import publisherRoute from './app/publisher/publisher.route';
 
 class App {
   public app: express.Application;
@@ -31,6 +32,8 @@ class App {
         winstonInstance: logger,
       }),
     );
+
+    this.app.use(cors({ origin: '*' }));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
@@ -39,7 +42,7 @@ class App {
     });
     mongoose.connect(config.DB_URL);
 
-    this.app.use(express.static(__dirname + '/../public/'));
+    this.app.use(express.static('images'));
 
     this.app.use(compression());
   }
@@ -50,8 +53,6 @@ class App {
     this.app.use('/auth', authRoute);
 
     this.app.use('/api/users', userRoute);
-
-    this.app.use('/api/publishers', publisherRoute);
   }
 
   private globalErrorHandler(): void {
