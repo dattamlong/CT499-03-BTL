@@ -10,5 +10,6 @@ bookRoute.post('/', authMiddleware.verifyTokenAndAdminAuth, checkExactChains(cre
 bookRoute.get('/', authMiddleware.verifyToken, bookController.getAllBooks);
 bookRoute.get('/:id', authMiddleware.verifyToken, bookController.getBook);
 bookRoute.patch('/:id', authMiddleware.verifyTokenAndAdminAuth, checkExactChains(updateBookChains), bookController.updateBook);
+bookRoute.delete('/:id', authMiddleware.verifyTokenAndAdminAuth, bookController.deleteBook);
 
 export default bookRoute;

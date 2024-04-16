@@ -3,6 +3,7 @@ import { validation } from '@root/utils/validation';
 import { NextFunction, Request, Response } from 'express';
 import { bookService } from './book.service';
 import { responseList, responseOne } from '@root/utils/response';
+import userService from '@users/user.service';
 
 const bookController = {
   getAllBooks: async (req: Request, res: Response, next: NextFunction) => {
@@ -40,6 +41,16 @@ const bookController = {
       if (!validation(req, res)) return;
       const book = await bookService.updateBook(req.params.id, req.body);
       return responseOne(res, book);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  deleteBook: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = req.params.id;
+      await bookService.deleteBook(id);
+      res.status(HTTP_STATUS.OK).json({ message: `Xóa sách ${id} thành công!` });
     } catch (error) {
       next(error);
     }

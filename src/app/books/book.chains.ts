@@ -16,7 +16,7 @@ const createBookChains = [
 
 const updateBookChains = [
   body('title').optional({ nullable: true }).isString().withMessage('Tiêu đề là bắt buộc!'),
-  body('price').optional({ nullable: true }).isInt({ min: 0 }).withMessage('Giá tiền là bắt buộc!'),
+  body('price').notEmpty().withMessage('Giá tiền là bắt buộc').isFloat({ min: 0 }).withMessage('Giá tiền phải là kiểu số thực!'),
   body('quantity').optional({ nullable: true }).isInt({ min: 0 }).withMessage('Số lượng sách phải là kiểu số nguyên!'),
   ...basedBookChains,
 ];

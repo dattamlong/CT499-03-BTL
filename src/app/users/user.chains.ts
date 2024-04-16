@@ -4,16 +4,18 @@ import userService from './user.service';
 
 export const IbasedUserInfoChains = [
   body('avatar').optional({ nullable: true }).isString().withMessage('Đường dẫn ảnh đại diện không hợp lệ'),
-  body('firstName').optional({ nullable: true }).isString().withMessage('Tên phải thuộc kiểu chuỗi.'),
-  body('lastName').optional({ nullable: true }).isString().withMessage('Họ phải thuộc kiểu chuỗi.'),
+  body('firstName').isString().withMessage('Tên phải thuộc kiểu chuỗi.'),
+  body('lastName').isString().withMessage('Họ phải thuộc kiểu chuỗi.'),
   body('gender')
     .optional({ nullable: true })
     .custom(async (value) => {
       if (value !== '0' && value !== '1' && value !== 'unknow') throw new Error('Giới tính không hợp lệ');
     }),
-  body('birthday').optional({ nullable: true }).isISO8601().toDate().withMessage('Ngày không hợp lệ'),
-  body('address').optional({ nullable: true }).isString().withMessage('Địa chỉ phải thuộc kiểu chuỗi'),
-  body('phoneNumber').optional({ nullable: true }).isString().withMessage('Số điện thoại không hợp lệ'),
+  body('birthday').isISO8601().toDate().withMessage('Ngày không hợp lệ'),
+  body('address').isString().withMessage('Địa chỉ phải thuộc kiểu chuỗi'),
+  body('phoneNumber')
+    .matches(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)
+    .withMessage('Số điện thoại không hợp lệ'),
 ];
 
 export const userChains = [

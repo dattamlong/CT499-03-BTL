@@ -1,10 +1,8 @@
 import HTTP_STATUS from 'http-status-codes';
 
-import { UserModel } from '@users/user.model';
 import { IBookDocument } from './book.interface';
 import { BookModel } from './book.model';
-import ApiError from '@root/utils/ApiError';
-import { message } from '../constants/message';
+import { ObjectId } from 'mongoose';
 
 export const bookService = {
   getAllBooks: async (search: string) => {
@@ -26,19 +24,10 @@ export const bookService = {
   },
 
   updateBook: async (id: string, info: IBookDocument) => {
-    return (await BookModel.findByIdAndUpdate(id, info, { new: true })
-      .then()
-      .catch(() => {
-        throw new ApiError(HTTP_STATUS.NOT_FOUND, message.book_not_found);
-      })) as IBookDocument;
+    return (await BookModel.findByIdAndUpdate(id, info, { new: true })) as IBookDocument;
   },
 
-  deleteBook: async (id: string) => {
-    return await UserModel.findByIdAndDelete(id)
-      .exec()
-
-      .catch(() => {
-        throw new ApiError(HTTP_STATUS.NOT_FOUND, message.book_not_found);
-      });
+  deleteBook: async (id: string | ObjectId) => {
+    return await BookModel.findByIdAndDelete(id);
   },
 };

@@ -1,6 +1,7 @@
 import { Model, Schema, SchemaOptions, model } from 'mongoose';
 import { IUserDocument } from './user.interface';
 import { compare, hash } from 'bcrypt';
+import { BorrowModel } from '../borrow/borrow.model';
 
 const userOptions: SchemaOptions = {
   timestamps: true,
@@ -56,6 +57,12 @@ userSchema.methods.hashedPassword = async function (password: string): Promise<s
 };
 
 userSchema.index({ '$**': 'text' });
+
+userSchema.pre('findOneAndDelete', async function (next) {
+  let id = this.getQuery()['_id'];
+  await BorrowModel.deleteMany({ reader: id });
+  next();
+});
 
 const UserModel: Model<IUserDocument> = model<IUserDocument>('User', userSchema, 'users');
 export { UserModel };

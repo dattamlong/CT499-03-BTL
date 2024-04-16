@@ -73,9 +73,9 @@ const userController = {
 
   deleteUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.body.id;
+      const id = req.params.id;
       await userService.deleteUser(id);
-      res.status(HTTP_STATUS.OK).json({ message: `Delete user ${id} successfully!` });
+      res.status(HTTP_STATUS.OK).json({ message: `Xóa tài khoản ${id} thành công!` });
     } catch (error) {
       next(error);
     }

@@ -4,7 +4,6 @@ import compression from 'compression';
 import expressWinston from 'express-winston';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import path from 'path';
 
 import authRoute from './app/auth/auth.route';
 import userRoute from './app/users/user.route';
@@ -12,6 +11,10 @@ import logger from './utils/logger';
 import { config } from './config';
 import { errorHandler } from './app/middleware/errorHandler.middleware';
 import { notFound } from './app/middleware/notFound.middleware';
+import bookRoute from './app/books/book.route';
+import photoRoute from './app/photos/photo.route';
+import publisherRoute from './app/publisher/publisher.route';
+import borrowRoute from './app/borrow/borrow.route';
 
 class App {
   public app: express.Application;
@@ -53,6 +56,14 @@ class App {
     this.app.use('/auth', authRoute);
 
     this.app.use('/api/users', userRoute);
+
+    this.app.use('/api/publishers', publisherRoute);
+
+    this.app.use('/api/books', bookRoute);
+
+    this.app.use('/api/photos', photoRoute);
+
+    this.app.use('/api/borrows', borrowRoute);
   }
 
   private globalErrorHandler(): void {
