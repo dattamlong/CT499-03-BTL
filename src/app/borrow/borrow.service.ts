@@ -13,6 +13,11 @@ const borrowService = {
     return await BorrowModel.find(query);
   },
 
+  getBorrowByReaderId: async (readerId: string) => {
+    console.log(readerId);
+    return await BorrowModel.find({ reader: readerId });
+  },
+
   getBorrowById: async (id: string) => {
     return await BorrowModel.findById(id);
   },

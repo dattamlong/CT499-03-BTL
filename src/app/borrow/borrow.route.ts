@@ -6,7 +6,8 @@ import { borrowChains } from './borrow.chain';
 
 const borrowRoute = Router();
 
-borrowRoute.post('/', authMiddleware.verifyTokenAndAdminAuth, checkExactChains(borrowChains), borrowController.createBorrow);
+borrowRoute.get('/reader', authMiddleware.verifyToken, borrowController.getByReader);
+borrowRoute.post('/', authMiddleware.verifyToken, checkExactChains(borrowChains), borrowController.createBorrow);
 borrowRoute.get('/', authMiddleware.verifyToken, borrowController.getAllBorrows);
 borrowRoute.get('/:id', authMiddleware.verifyToken, borrowController.getOneBorrow);
 borrowRoute.patch('/:id', authMiddleware.verifyTokenAndAdminAuth, checkExactChains(borrowChains), borrowController.updateBorrow);

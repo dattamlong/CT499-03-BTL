@@ -3,6 +3,7 @@ import borrowService from './borrow.service';
 import { responseList, responseOne } from '@root/utils/response';
 import { validation } from '@root/utils/validation';
 import HTTP_STATUS from 'http-status-codes';
+import getDecodedJWT from '@root/utils/getDecodedJWTFromReq';
 
 const borrowController = {
   getAllBorrows: async (req: Request, res: Response, next: NextFunction) => {
@@ -25,11 +26,21 @@ const borrowController = {
     }
   },
 
+  getByReader: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const token = req.headers.authorization;
+      const { userId }: any = getDecodedJWT(token!);
+      const borrows = await borrowService.getBorrowByReaderId(userId);
+      return responseList(res, borrows);
+    } catch (error) {
+      next(error);
+    }
+  },
+
   getOneBorrow: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (!validation(req, res)) return;
-      const book = await borrowService.getBorrowById(req.params.id);
-      return responseOne(res, book);
+      const borrow = await borrowService.getBorrowById(req.params.id);
+      return responseOne(res, borrow);
     } catch (error) {
       next(error);
     }

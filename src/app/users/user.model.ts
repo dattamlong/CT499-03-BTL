@@ -32,7 +32,7 @@ export const userSchema = new Schema(
     birthday: { type: Date },
     firstName: { type: String, default: '' },
     lastName: { type: String, default: '' },
-    gender: { type: String, default: 'unknow' },
+    gender: { type: String, default: 'unknown' },
     address: { type: String, default: '' },
     phoneNumber: { type: String, default: '' },
   },

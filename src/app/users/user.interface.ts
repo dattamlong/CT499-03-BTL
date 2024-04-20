@@ -8,7 +8,7 @@ export interface IUserDocument extends Document {
 
   firstName: string;
   lastName: string;
-  gender: '0' | '1' | 'unknow';
+  gender: '0' | '1' | 'unknown';
   birthday: Date;
   address: string;
   phoneNumber: string;

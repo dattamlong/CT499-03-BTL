@@ -7,8 +7,11 @@ import { IbasedUserInfoChains, userChains } from './user.chains';
 const userRoute = Router();
 
 //user profile
+
 userRoute.get('/me', authMiddleware.verifyToken, userController.getProfile);
 userRoute.patch('/me', authMiddleware.verifyToken, checkExactChains(IbasedUserInfoChains), userController.updateProfile);
+// userRoute.patch('/brrows', authMiddleware.verifyToken, checkExactChains(IbasedUserInfoChains), userControlle);
+
 //==================================================================================
 userRoute.get('/', authMiddleware.verifyTokenAndAdminAuth, userController.getAllUsers);
 
