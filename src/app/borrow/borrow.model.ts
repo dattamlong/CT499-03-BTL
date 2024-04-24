@@ -7,6 +7,7 @@ const borrowSchema: Schema = new Schema(
     book: { type: String },
     borrowingDay: { type: Date },
     returnDay: { type: Date },
+    isReturned: { type: Boolean, default: false },
   },
   { timestamps: true },
 );

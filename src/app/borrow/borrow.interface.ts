@@ -6,4 +6,5 @@ export interface IBorrowDocument extends Document {
   book: string;
   borrowingDay: Date;
   returnDay: Date;
+  isReturned: boolean;
 }
